@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Ingreso de Vehículo{% endblock %}
+
+{% block content %}
+<h2>Ingreso de Vehículo</h2>
+<form method="post">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.matricula.label }} {{ form.matricula(size=20) }}
+    </div>
+    <div>
+        {{ form.marca.label }} {{ form.marca(size=20) }}
+    </div>
+    <div>
+        {{ form.modelo.label }} {{ form.modelo(size=20) }}
+    </div>
+    <div>
+        {{ form.color.label }} {{ form.color(size=20) }}
+    </div>
+    <div>
+        {{ form.precio.label }} {{ form.precio(size=20) }}
+    </div>
+    <div>
+        <button type="submit">Guardar</button>
+        <a href="{{ url_for('ingreso') }}">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

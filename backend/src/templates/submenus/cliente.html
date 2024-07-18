@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Ingreso de Cliente{% endblock %}
+
+{% block content %}
+<h2>Ingreso de Cliente</h2>
+<form method="post">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.cedula.label }} {{ form.cedula(size=20) }}
+    </div>
+    <div>
+        {{ form.nombres.label }} {{ form.nombres(size=20) }}
+    </div>
+    <div>
+        {{ form.apellidos.label }} {{ form.apellidos(size=20) }}
+    </div>
+    <div>
+        {{ form.direccion.label }} {{ form.direccion(size=20) }}
+    </div>
+    <div>
+        {{ form.ciudad.label }} {{ form.ciudad(size=20) }}
+    </div>
+    <div>
+        {{ form.telefono.label }} {{ form.telefono(size=20) }}
+    </div>
+    <div>
+        {{ form.vehiculos.label }} {{ form.vehiculos() }}
+    </div>
+    <div>
+        <button type="submit">Guardar</button>
+        <a href="{{ url_for('ingreso') }}">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

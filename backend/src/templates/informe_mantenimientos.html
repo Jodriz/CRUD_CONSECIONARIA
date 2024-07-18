@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Informe de Mantenimientos{% endblock %}
+
+{% block content %}
+<h2>Informe de Mantenimientos</h2>
+<form method="post">
+    <label for="matricula">Matrícula del vehículo:</label>
+    <input type="text" id="matricula" name="matricula" required>
+    <button type="submit">Buscar</button>
+</form>
+{% if mantenimientos %}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Vehículo</th>
+            <th>Cambio de Filtro</th>
+            <th>Cambio de Aceite</th>
+            <th>Cambio de Frenos</th>
+            <th>Costo de Filtro</th>
+            <th>Costo de Aceite</th>
+            <th>Costo de Frenos</th>
+            <th>Fecha de Recepción</th>
+            <th>Fecha de Entrega</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mantenimiento in mantenimientos %}
+        <tr>
+            <td>{{ mantenimiento.id }}</td>
+            <td>{{ mantenimiento.vehiculo_id }}</td>
+            <td>{{ 'Sí' if mantenimiento.cambio_filtro else 'No' }}</td>
+            <td>{{ 'Sí' if mantenimiento.cambio_aceite else 'No' }}</td>
+            <td>{{ 'Sí' if mantenimiento.cambio_frenos else 'No' }}</td>
+            <td>{{ mantenimiento.costo_filtro }}</td>
+            <td>{{ mantenimiento.costo_aceite }}</td>
+            <td>{{ mantenimiento.costo_frenos }}</td>
+            <td>{{ mantenimiento.fecha_recepcion }}</td>
+            <td>{{ mantenimiento.fecha_entrega }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+<a href="{{ url_for('informe') }}">Regresar</a>
+{% endblock %}

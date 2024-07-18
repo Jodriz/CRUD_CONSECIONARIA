@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Ingreso{% endblock %}
+
+{% block content %}
+<h2>Ingreso</h2>
+<ul>
+    <li><a href="{{ url_for('ingresar_vehiculo') }}">Vehículo</a></li>
+    <li><a href="{{ url_for('ingresar_cliente') }}">Clientes</a></li>
+    <li><a href="{{ url_for('ingresar_revision') }}">Revisiones</a></li>
+    <li><a href="{{ url_for('index') }}">Regresar</a></li>
+</ul>
+{% endblock %}

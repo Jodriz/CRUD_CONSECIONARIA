@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Ingreso de Revisión{% endblock %}
+
+{% block content %}
+<h2>Ingreso de Revisión</h2>
+<form method="post">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.vehiculo_id.label }} {{ form.vehiculo_id(size=20) }}
+    </div>
+    <div>
+        {{ form.cambio_filtro.label }} {{ form.cambio_filtro() }}
+    </div>
+    <div>
+        {{ form.cambio_aceite.label }} {{ form.cambio_aceite() }}
+    </div>
+    <div>
+        {{ form.cambio_frenos.label }} {{ form.cambio_frenos() }}
+    </div>
+    <div>
+        {{ form.costo_filtro.label }} {{ form.costo_filtro(size=20) }}
+    </div>
+    <div>
+        {{ form.costo_aceite.label }} {{ form.costo_aceite(size=20) }}
+    </div>
+    <div>
+        {{ form.costo_frenos.label }} {{ form.costo_frenos(size=20) }}
+    </div>
+    <div>
+        {{ form.fecha_recepcion.label }} {{ form.fecha_recepcion() }}
+    </div>
+    <div>
+        {{ form.fecha_entrega.label }} {{ form.fecha_entrega() }}
+    </div>
+    <div>
+        <button type="submit">Guardar</button>
+        <a href="{{ url_for('ingreso') }}">Cancelar</a>
+    </div>
+</form>
+{% endblock %}
