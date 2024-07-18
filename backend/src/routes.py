@@ -11,8 +11,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 with app.app_context():
-    # app.register_blueprint(routes.app)
-    # app.add_url_rule('/', endpoint='index')
     db.create_all()
 
 @app.route('/')
