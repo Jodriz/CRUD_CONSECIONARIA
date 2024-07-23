@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Informe de Clientes{% endblock %}
+
+{% block content %}
+<h2>Informe de Vehiculos</h2>
+<!-- <table> -->
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th>Matricula</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Color</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in data %}
+            <tr>
+                <td class="TDTitulo">{{ cliente["matricula"] }}</td>
+                <td class="TDTitulo">{{ cliente["marca"] }}</td>
+                <td class="TDTitulo">{{ cliente["modelo"] }}</td>
+                <td class="TDTitulo">{{ cliente["color"] }}</td>
+                <td class="TDTitulo">{{ cliente["precio"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    
+<a class="btn" href="{{ url_for('informe') }}">Regresar</a>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Informe de Clientes{% endblock %}
+
+{% block content %}
+<h2>Informe de Clientes</h2>
+<!-- <table> -->
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Cédula</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Dirección</th>
+                <th>Ciudad</th>
+                <th>Teléfono</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in data %}
+            <tr>
+                <td class="TDTitulo">{{ cliente["codigo"] }}</td>
+                <td class="TDTitulo">{{ cliente["cedula"] }}</td>
+                <td class="TDTitulo">{{ cliente["nombres"] }}</td>
+                <td class="TDTitulo">{{ cliente["apellidos"] }}</td>
+                <td class="TDTitulo">{{ cliente["direccion"] }}</td>
+                <td class="TDTitulo">{{ cliente["ciudad"] }}</td>
+                <td class="TDTitulo">{{ cliente["telefono"] }}</td>
+                <!-- <td bgcolor= "#1768AC" class="TDTitulo">
+                    <ul>
+                        {% for compra in cliente.compras %}
+                        <li>{{ compra.vehiculo.marca }} {{ compra.vehiculo.modelo }}</li>
+                        {% endfor %}
+                    </ul>
+                </td> -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    
+<a class="btn" href="{{ url_for('informe') }}">Regresar</a>
+{% endblock %}

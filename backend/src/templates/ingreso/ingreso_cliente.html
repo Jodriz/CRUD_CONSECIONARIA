@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Ingreso{% endblock %}
+
+{% block content %}
+<h2>Ingresar Cliente</h2>
+<form method="post" action="{{url_for('insert_cliente')}}">
+    <label for="cedula">Cédula:</label>
+    <input type="text" id="cedula" name="cedula" maxlength="10" required>
+    <p></p>
+
+    <label for="nombres">Nombres:</label>
+    <input type="text" id="nombres" name="nombres" maxlength="100" required>
+    <p></p>
+
+    <label for="apellidos">Apellidos:</label>
+    <input type="text" id="apellidos" name="apellidos" maxlength="100" required>
+    <p></p>
+
+    <label for="direccion">Dirección:</label>
+    <input type="text" id="direccion" name="direccion" maxlength="300" required>
+    <p></p>
+
+    <label for="ciudad">Ciudad:</label>
+    <input type="text" id="ciudad" name="ciudad" maxlength="30" required>
+    <p></p>
+
+    <label for="telefono">Teléfono:</label>
+    <input type="text" id="telefono" name="telefono" maxlength="10" required>
+    
+    <p></p>
+    <button type="submit">Ingresar</button>
+</form>
+{% endblock %}
