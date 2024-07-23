@@ -17,12 +17,12 @@ def ingreso():
 
 @app.route("/ingreso/vehiculo", methods=["GET", "POST"])
 def ingresar_vehiculo():
-    return render_template("ingreso/ingreso_vehiculos.html")
+    return render_template("ingreso/ingreso_vehiculo.html")
 
 
 @app.route("/ingreso/cliente", methods=["GET", "POST"])
 def ingresar_cliente():
-    return render_template("ingreso/ingreso_clientes.html")
+    return render_template("ingreso/ingreso_cliente.html")
 
 
 @app.route("/ingreso/revision", methods=["GET", "POST"])
@@ -58,21 +58,24 @@ def insert(model):
 def all(model):
     return render_template(f"informe/informe_{model.name_entity}s.html", data=model.all())
 
+vehiculo = Vehiculo()
+cliente = Cliente()
+
 @app.route("/insert_vehiculo", methods=["POST"])
 def insert_vehiculo():
-    return insert(Vehiculo)
+    return insert(vehiculo)
     
 @app.route("/insert-cliente", methods=["POST"])
 def insert_cliente():
-    return insert(Cliente)
+    return insert(cliente)
 
 @app.route("/informe/clientes")
 def informe_clientes():
-    return all(Cliente)
+    return all(cliente)
 
 @app.route("/informe/vehiculos")
 def informe_vehiculos():
-    return all(Vehiculo)
+    return all(vehiculo)
 
 @app.route("/informe/mantenimientos", methods=["GET", "POST"])
 def informe_mantenimientos():
