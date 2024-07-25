@@ -18,13 +18,6 @@ CREATE TABLE vehiculos (
     precio DECIMAL(10,2) NOT NULL
 );
 
--- Tabla de Detalle de Revisiones
-CREATE TABLE detalle_revision (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_revision VARCHAR(60),
-    costo_revision DECIMAL(10,2)
-);
-
 -- Tabla de Compras (relación entre clientes y vehículos)
 CREATE TABLE compras (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -32,6 +25,24 @@ CREATE TABLE compras (
     vehiculo_id VARCHAR(10),
     FOREIGN KEY (cliente_id) REFERENCES clientes(codigo),
     FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(matricula)
+);
+
+
+si se ha hecho cambio de filtro, 
+si se ha hecho cambio de aceite, 
+si se ha hecho cambio de frenos 
+cada uno de estos tiene un costo
+la fecha y hora de recepción, 
+fecha y hora de entrega.
+
+SELECT * FROM vehiculos WHERE compras.cliente_id==clientes.codigo AND compras.vehiculo_id==vehiculos.matricula;
+SELECT v.* FROM vehiculos v, compras WHERE compras.cliente_id=11 AND compras.vehiculo_id=v.matricula;
+SELECT l.* FROM vehiculo l, cliente m WHERE m.=%s AND m.codigo=l.matricula 
+-- Tabla de Detalle de Revisiones
+CREATE TABLE detalle_revision (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_revision VARCHAR(60),
+    costo_revision DECIMAL(10,2)
 );
 
 -- Tabla de Revisiones
@@ -44,3 +55,6 @@ CREATE TABLE revisiones (
     FOREIGN KEY (revision_id) REFERENCES detalle_revision(id),
     FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(matricula)
 );
+
+
+INSERT INTO `detalle_revision` (`id`, `nombre_revision`, `costo_revision`) VALUES (NULL, 'cambio de filtro', '25'), (NULL, 'cambio de aceite', '10'), (NULL, 'cambio de frenos ', '50');

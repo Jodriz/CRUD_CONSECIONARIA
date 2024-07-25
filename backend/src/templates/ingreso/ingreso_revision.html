@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Ingresar Revisiones/Mantenimiento{% endblock %}
+
+{% block content %}
+<h1>Ingresar Revisiones/Mantenimiento</h1>
+<form method="post" action="{{url_for('ingresar_revision_vehiculo')}}">
+    <label for="cedula">Cedula de cliente:</label>
+    <input type="text" id="cedula" name="cedula" maxlength="10" required>
+    <p></p>
+    <button type="submit">Visualizar Vehículos</button>
+</form>
+{% endblock %}

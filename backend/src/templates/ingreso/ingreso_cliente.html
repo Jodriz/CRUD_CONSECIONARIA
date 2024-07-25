@@ -3,8 +3,9 @@
 {% block title %}Ingreso{% endblock %}
 
 {% block content %}
-<h2>Ingresar Cliente</h2>
 <form method="post" action="{{url_for('insert_cliente')}}">
+    <h2>Datos del cliente</h2>
+
     <label for="cedula">Cédula:</label>
     <input type="text" id="cedula" name="cedula" maxlength="10" required>
     <p></p>
@@ -27,8 +28,103 @@
 
     <label for="telefono">Teléfono:</label>
     <input type="text" id="telefono" name="telefono" maxlength="10" required>
-    
+
+    <h2>Vehiculos a comprar</h2>
+    <label for="vehiculo">Vehículo:</label>
+    <select id="vehiculo" name="vehiculo" required>
+        {% for vehiculo in vehiculos %}            
+            <option value="{{ vehiculo['matricula'] }}">{{ " | ".join([vehiculo["marca"],vehiculo["modelo"],vehiculo["color"]]) }}</option>
+        {% endfor %}
+    </select>
     <p></p>
-    <button type="submit">Ingresar</button>
+    <button type="button" id="btn_add_vehiculo" onclick="addVehiculo()">Agregar Vehículo</button>
+    <p></p>    
+    <input type="hidden" id="selectedVehiculos" name="selectedVehiculos">
+    <table>
+        <thead>
+            <tr>
+                <th>Matricula</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Color</th>
+                <th>Precio</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody id="vehiculosTableBody">
+            <!-- Aquí se agregarán las filas dinámicamente -->
+        </tbody>
+    </table>
+    <p></p>
+    <button type="submit">Comprar Vehículo(s)</button>
 </form>
+<script>
+    // Almacenar datos de vehículos en una variable JavaScript
+    const vehiculosData = {{ vehiculos | tojson }};
+
+    function addVehiculo() {
+        const select = document.getElementById('vehiculo');
+        const matricula = select.value;
+
+        // Buscar el vehículo seleccionado en vehiculosData
+        const selectedVehiculo = vehiculosData.find(v => v.matricula === matricula);
+
+        if (selectedVehiculo) {
+            // Buscar si la fila ya existe en la tabla
+            const existingRow = document.querySelector(`tr[data-matricula="${matricula}"]`);
+
+            if (existingRow) {
+                // Si la fila ya existe, simplemente mostrarla
+                existingRow.style.display = '';
+            } else {
+                // Si la fila no existe, crear una nueva fila
+                const tableBody = document.getElementById('vehiculosTableBody');
+
+                const newRow = document.createElement('tr');
+                newRow.setAttribute('data-matricula', matricula);
+
+                newRow.innerHTML = `
+                    <td class="TDTitulo">${selectedVehiculo.matricula}</td>
+                    <td class="TDTitulo">${selectedVehiculo.marca}</td>
+                    <td class="TDTitulo">${selectedVehiculo.modelo}</td>
+                    <td class="TDTitulo">${selectedVehiculo.color}</td>
+                    <td class="TDTitulo">${selectedVehiculo.precio}</td>
+                    <td><button type="button" onclick="removeVehiculo(this)">Eliminar</button></td>
+                `;
+
+                tableBody.appendChild(newRow);
+            }
+        }
+        updateHiddenField();
+    }
+
+    function removeVehiculo(button) {
+        // Ocultar la fila del botón pulsado
+        const row = button.parentNode.parentNode;
+        row.style.display = 'none';
+        updateHiddenField();
+    }
+
+    function updateHiddenField() {
+        const tableBody = document.getElementById('vehiculosTableBody');
+        const rows = tableBody.getElementsByTagName('tr');
+        const vehiculos = [];
+
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i].style.display !== 'none') {
+                const cells = rows[i].getElementsByTagName('td');
+                const vehiculo = {
+                    matricula: cells[0].textContent,
+                    marca: cells[1].textContent,
+                    modelo: cells[2].textContent,
+                    color: cells[3].textContent,
+                    precio: cells[4].textContent
+                };
+                vehiculos.push(vehiculo);
+            }
+        }
+
+        document.getElementById('selectedVehiculos').value = JSON.stringify(vehiculos);
+    }
+</script>
 {% endblock %}

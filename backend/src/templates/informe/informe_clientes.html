@@ -16,6 +16,8 @@
                 <th>Dirección</th>
                 <th>Ciudad</th>
                 <th>Teléfono</th>
+                <th>Número de vehículos</th>
+                <th>Vehículos</th>
             </tr>
         </thead>
         <tbody>
@@ -27,14 +29,37 @@
                 <td class="TDTitulo">{{ cliente["apellidos"] }}</td>
                 <td class="TDTitulo">{{ cliente["direccion"] }}</td>
                 <td class="TDTitulo">{{ cliente["ciudad"] }}</td>
-                <td class="TDTitulo">{{ cliente["telefono"] }}</td>
-                <!-- <td bgcolor= "#1768AC" class="TDTitulo">
-                    <ul>
-                        {% for compra in cliente.compras %}
-                        <li>{{ compra.vehiculo.marca }} {{ compra.vehiculo.modelo }}</li>
-                        {% endfor %}
-                    </ul>
-                </td> -->
+                <td class="TDTitulo">{{ cliente["telefono"] }}</td>            
+                <td class="TDTitulo">{{ cliente["vehiculo"] | length}}</td>  
+                <td class="TDTitulo">                   
+                    {% if cliente["vehiculo"] | length > 0 %}     
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Matricula</th>
+                                    <th>Marca</th>
+                                    <th>Modelo</th>
+                                    <th>Color</th>
+                                    <th>Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for vehiculo in cliente["vehiculo"] %}
+                                <tr>
+                                    <td class="TDTitulo">{{ vehiculo["matricula"] }}</td>
+                                    <td class="TDTitulo">{{ vehiculo["marca"] }}</td>
+                                    <td class="TDTitulo">{{ vehiculo["modelo"] }}</td>
+                                    <td class="TDTitulo">{{ vehiculo["color"] }}</td>
+                                    <td class="TDTitulo">{{ vehiculo["precio"] }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        N/A
+                    {% endif %}          
+                </td>     
+
             </tr>
             {% endfor %}
         </tbody>

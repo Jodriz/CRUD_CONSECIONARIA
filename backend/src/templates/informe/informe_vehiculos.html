@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Informe de Clientes{% endblock %}
+{% block title %}Informe de vehiculos{% endblock %}
 
 {% block content %}
 <h2>Informe de Vehiculos</h2>
@@ -17,13 +17,13 @@
             </tr>
         </thead>
         <tbody>
-            {% for cliente in data %}
+            {% for vehiculo in data %}
             <tr>
-                <td class="TDTitulo">{{ cliente["matricula"] }}</td>
-                <td class="TDTitulo">{{ cliente["marca"] }}</td>
-                <td class="TDTitulo">{{ cliente["modelo"] }}</td>
-                <td class="TDTitulo">{{ cliente["color"] }}</td>
-                <td class="TDTitulo">{{ cliente["precio"] }}</td>
+                <td class="TDTitulo">{{ vehiculo["matricula"] }}</td>
+                <td class="TDTitulo">{{ vehiculo["marca"] }}</td>
+                <td class="TDTitulo">{{ vehiculo["modelo"] }}</td>
+                <td class="TDTitulo">{{ vehiculo["color"] }}</td>
+                <td class="TDTitulo">{{ vehiculo["precio"] }}</td>
             </tr>
             {% endfor %}
         </tbody>
