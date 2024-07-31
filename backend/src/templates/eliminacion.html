@@ -4,7 +4,7 @@
 
 {% block content %}
 <h2>Eliminación</h2>
-<form method="post" action="">
+<form method="post" action="{{url_for('eliminacion')}}">
     <label for="matricula">Matrícula del vehículo:</label>
     <input type="text" id="matricula" name="matricula" required>
     <p></p>

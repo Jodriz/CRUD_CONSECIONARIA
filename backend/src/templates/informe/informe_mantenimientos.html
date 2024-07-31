@@ -4,23 +4,20 @@
 
 {% block content %}
 <h2>Informe de Mantenimientos</h2>
-<form method="post">
+<form method="post" action="{{ url_for('informe_mantenimientos') }}">
     <label for="matricula">Matrícula del vehículo:</label>
     <input type="text" id="matricula" name="matricula" required>
+    <p></p>
     <button type="submit">Buscar</button>
+    <p></p>
 </form>
 {% if mantenimientos %}
 <table>
     <thead>
         <tr>
-            <th>ID</th>
             <th>Vehículo</th>
-            <th>Cambio de Filtro</th>
-            <th>Cambio de Aceite</th>
-            <th>Cambio de Frenos</th>
-            <th>Costo de Filtro</th>
-            <th>Costo de Aceite</th>
-            <th>Costo de Frenos</th>
+            <th>Tipo revision</th>            
+            <th>Costo</th>
             <th>Fecha de Recepción</th>
             <th>Fecha de Entrega</th>
         </tr>
@@ -28,14 +25,9 @@
     <tbody>
         {% for mantenimiento in mantenimientos %}
         <tr>
-            <td>{{ mantenimiento.id }}</td>
             <td>{{ mantenimiento.vehiculo_id }}</td>
-            <td>{{ 'Sí' if mantenimiento.cambio_filtro else 'No' }}</td>
-            <td>{{ 'Sí' if mantenimiento.cambio_aceite else 'No' }}</td>
-            <td>{{ 'Sí' if mantenimiento.cambio_frenos else 'No' }}</td>
-            <td>{{ mantenimiento.costo_filtro }}</td>
-            <td>{{ mantenimiento.costo_aceite }}</td>
-            <td>{{ mantenimiento.costo_frenos }}</td>
+            <td>{{ mantenimiento.nombre_revision }}</td>
+            <td>{{ mantenimiento.costo_revision }}</td>
             <td>{{ mantenimiento.fecha_recepcion }}</td>
             <td>{{ mantenimiento.fecha_entrega }}</td>
         </tr>

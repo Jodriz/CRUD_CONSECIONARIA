@@ -1,6 +1,40 @@
 from .db import mysql
 
 
+class CRUDB:
+    def query(query, *args):     
+        connection = mysql   
+        cursor = connection.cursor()
+        try:
+            cursor.execute(query, args)
+            connection.commit()
+            return cursor.lastrowid  # Devolver el último id insertado
+        except mysql.connector.Error as err:
+            connection.rollback()
+            print(f"Error: {err}")
+            return None        
+        # finally:
+        #     cursor.close()
+        #     connection.close()
+    
+    def select(query, *args):
+        cur = mysql.cursor()
+        cur.execute(query, args)
+        rows = cur.fetchall()
+        columns = [desc[0] for desc in cur.description]
+        cur.close()
+        return CRUDB._asDict(rows, columns)
+
+    def _asDict(rows, columns):
+        data = []
+        for row in rows:
+            dataRow = {}
+            for i in range(len(columns)):
+                colum = columns[i]
+                dataRow[colum] = row[i]
+            data.append(dataRow)
+        return data
+    
 class CRUD:
     def __init__(
         self,
@@ -235,6 +269,7 @@ class CRUD:
         cur = mysql.cursor()
         cur.execute(query)
         mysql.commit()
+
 
 
 class Vehiculo(CRUD):

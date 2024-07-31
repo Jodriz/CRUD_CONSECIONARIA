@@ -56,7 +56,9 @@
         </tbody>
     </table>
     <p></p>
-    <button type="submit">Comprar Vehículo(s)</button>
+    {# <button type="submit">Comprar Vehículo(s)</button> #} 
+    {% include 'components/guardar_button.html' %}     
+    {% include 'components/ingreso/cancel_btn_ingreso.html'%}    
 </form>
 <script>
     // Almacenar datos de vehículos en una variable JavaScript

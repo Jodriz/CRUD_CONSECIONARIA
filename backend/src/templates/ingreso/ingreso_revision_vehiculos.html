@@ -3,7 +3,7 @@
 {% block title %}Registro de revisión de vehículos{% endblock %}
 
 {% block content %}
-<form method="post" action="{{url_for('insertar_revision_vehiculo')}}">
+<form method="post" action="{{ url_for('insertar_revision_vehiculo') }}">
     <h2>Registro de revisión de vehículos</h2>
     <label for="vehiculo">Seleccionar Vehículo:</label>
     <select id="vehiculo" name="vehiculo" required>
@@ -18,8 +18,7 @@
     <p></p>
     <button type="button" id="btn_add_vehiculo" onclick="addVehiculo()">Agregar Vehículo</button>
     <p></p>    
-    <input type="hidden" id="selectedVehiculos" name="selectedVehiculos">
-    <input type="hidden" id="selectedRevisiones" name="selectedRevisiones">
+    <input type="hidden" id="vehiculosData" name="vehiculosData">
     <table>
         <thead>
             <tr>
@@ -31,7 +30,7 @@
                 <th>Fecha de Recepción</th>
                 {% if tipos_revision %}     
                     {% for tipo_revision in tipos_revision %}                                              
-                    <th>{{tipo_revision["nombre_revision"]}}</th>                    
+                    <th>{{ tipo_revision["nombre_revision"] }}</th>                    
                     {% endfor %}
                 {% else %}
                     <th>No hay tipos revision disponibles.</th>
@@ -43,8 +42,9 @@
             <!-- Aquí se agregarán las filas dinámicamente -->
         </tbody>
     </table>
-    <p></p>
-    <button type="submit">Comprar Vehículo(s)</button>
+    <p></p>    
+    {% include 'components/guardar_button.html' %}     
+    {% include 'components/ingreso/cancel_btn_ingreso.html' %}
 </form>
 <script>
     // Almacenar datos de vehículos en una variable JavaScript
@@ -61,28 +61,22 @@
             // Buscar si la fila ya existe en la tabla
             const existingRow = document.querySelector(`tr[data-matricula="${matricula}"]`);
 
-            // if (existingRow) {
-            //     // Si la fila ya existe, simplemente mostrarla
-            //     existingRow.style.display = '';
-            // } else {
-                // Si la fila no existe, crear una nueva fila
                 const tableBody = document.getElementById('vehiculosTableBody');
 
                 const newRow = document.createElement('tr');
                 newRow.setAttribute('data-matricula', matricula);
 
-                // <td class="TDTitulo">${selectedVehiculo.precio}</td>
                 newRow.innerHTML = `
                     <td class="matricula">${selectedVehiculo.matricula}</td>
                     <td class="TDTitulo">${selectedVehiculo.marca}</td>
                     <td class="TDTitulo">${selectedVehiculo.modelo}</td>
                     <td class="TDTitulo">${selectedVehiculo.color}</td>
-                    <td class="TDTitulo"><input type="datetime-local" id="fecha_entrega" name="fecha_entrega" required></td>
-                    <td class="TDTitulo"><input type="datetime-local" id="fecha_recepcion" name="fecha_recepcion" required></td>
-                     {% if tipos_revision %}     
+                    <td class=""><input onchange="updateHiddenField()" type="datetime-local" name="fecha_entrega" required></td>
+                    <td class="TDTitulo"><input onchange="updateHiddenField()" type="datetime-local" name="fecha_recepcion" required></td>
+                    {% if tipos_revision %}     
                         {% for tipo_revision in tipos_revision %}   
                             {% set name_option = "_".join(tipo_revision["nombre_revision"].split(" ")) %}                                    
-                            <td class="name_option"><input onchange="updateHiddenField()" type="checkbox" id="{{name_option}}" name="{{name_option}}"></td>                    
+                            <td class="name_option"><input onchange="updateHiddenField()" type="checkbox" name="{{ tipo_revision['nombre_revision'] }}"></td>                    
                         {% endfor %}
                     {% else %}
                         <td>No hay tipos revision disponibles.</td>
@@ -91,9 +85,8 @@
                 `;
                 
                 tableBody.appendChild(newRow);
-            // }
+                updateHiddenField();
         }
-        updateHiddenField();
     }
 
     function removeVehiculo(button) {
@@ -106,28 +99,31 @@
     function updateHiddenField() {
         const tableBody = document.getElementById('vehiculosTableBody');
         const rows = tableBody.getElementsByTagName('tr');
-        const matriculas = [];
-        const revisiones = [];
+        const vehiculos = [];
+
         for (let i = 0; i < rows.length; i++) {
             if (rows[i].style.display !== 'none') {
                 const cells = rows[i].getElementsByTagName('td');
-                const matricula = cells[0].textContent;                
-                matriculas.push(matricula);
-                // const nameOptions = document.querySelectorAll('td.name_option');
-                const nameOptions = rows[i].querySelectorAll('td.name_option input[type="checkbox"]');
-                // const checkboxes = document.querySelectorAll('td.name_option input[type="checkbox"]');
-                
-                const nameOpts = [];
-                for (let k = 0; k < nameOptions.length; k++) {
-                    nameOpts.push(nameOptions[k].checked?1:0)
-                }
-                revisiones.push(nameOpts.join(","))
+                const vehiculo = {
+                    matricula: cells[0].textContent.trim(),
+                    // marca: cells[1].textContent.trim(),
+                    // modelo: cells[2].textContent.trim(),
+                    // color: cells[3].textContent.trim(),
+                    fecha_entrega: cells[4].querySelector('input').value,
+                    fecha_recepcion: cells[5].querySelector('input').value
+                };
+
+                // Recolectar valores de los checkboxes
+                const checkboxes = rows[i].querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    vehiculo[checkbox.name] = checkbox.checked ? 1 : 0;
+                });
+
+                vehiculos.push(vehiculo);
             }
         }
 
-        document.getElementById('selectedVehiculos').value = matriculas.join(";")
-        document.getElementById('selectedRevisiones').value = revisiones.join(";")
-        return true;
+        document.getElementById('vehiculosData').value = JSON.stringify(vehiculos);
     }
 </script>
 {% endblock %}

@@ -45,6 +45,13 @@ CREATE TABLE detalle_revision (
     costo_revision DECIMAL(10,2)
 );
 
+CREATE TABLE estado_baja (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    estado_inactivo BINARY,
+    motivo_baja TEXT
+);
+
+
 -- Tabla de Revisiones
 CREATE TABLE revisiones (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -53,8 +60,33 @@ CREATE TABLE revisiones (
     fecha_recepcion DATETIME,
     fecha_entrega DATETIME,
     FOREIGN KEY (revision_id) REFERENCES detalle_revision(id),
-    FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(matricula)
+    FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(matricula),
 );
+
+-- Añadir columna estado_baja_id a la tabla revisiones
+ALTER TABLE revisiones 
+ADD estado_baja_id INT,
+ADD FOREIGN KEY (estado_baja_id) REFERENCES estado_baja(id);
+
+
+-- Tabla de Revisiones
+CREATE TABLE revisiones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vehiculo_id VARCHAR(10),
+    revision_id INT,
+    fecha_recepcion DATETIME,
+    fecha_entrega DATETIME,
+    estado_baja_id INT    
+    FOREIGN KEY (revision_id) REFERENCES detalle_revision(id),
+    FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(matricula),
+    FOREIGN KEY (estado_baja_id) REFERENCES estado_baja(id)
+);
+ks = {"cambio aceite":"2"}
+for k in ks:
+    if data[k]==1:
+        INSERT INTO revisiones(vehiculo_id, revision_id, fecha_recepcion, fecha_entrega) VALUES()   
+"INSERT INTO revisiones(vehiculo_id, revision_id, fecha_recepcion, fecha_entrega) VALUES()"
+"INSERT INTO detalle_revision(nombre_revision, costo_revision) VALUES()"
 
 
 INSERT INTO `detalle_revision` (`id`, `nombre_revision`, `costo_revision`) VALUES (NULL, 'cambio de filtro', '25'), (NULL, 'cambio de aceite', '10'), (NULL, 'cambio de frenos ', '50');
